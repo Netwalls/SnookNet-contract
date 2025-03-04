@@ -98,10 +98,10 @@ mod GRUFT {
 
     #[abi(embed_v0)]
     impl GRUFTImpl of IGRUFT<ContractState> {
-        fn stake(ref self: ContractState, amount: u256, lock_duration: u64) {// TODO: Implement
+        fn stake(ref self: ContractState, amount: u256, lock_duration: u64) { // TODO: Implement
         }
 
-        fn unstake(ref self: ContractState, position_id: u256) {// TODO: Implement
+        fn unstake(ref self: ContractState, position_id: u256) { // TODO: Implement
         }
 
         fn get_staking_position(self: @ContractState, position_id: u256) -> StakingPosition {
@@ -117,11 +117,10 @@ mod GRUFT {
         }
 
         fn get_pending_rewards(self: @ContractState, account: ContractAddress) -> u256 {
-            // TODO: Implement
             0
         }
 
-        fn claim_rewards(ref self: ContractState) {// TODO: Implement
+        fn claim_rewards(ref self: ContractState) { // TODO: Implement
         }
 
         fn get_reward_info(self: @ContractState, account: ContractAddress) -> RewardInfo {
@@ -144,7 +143,9 @@ mod GRUFT {
             0
         }
 
-        fn delegate_voting_power(ref self: ContractState, delegatee: ContractAddress) {// TODO: Implement
+        fn delegate_voting_power(
+            ref self: ContractState, delegatee: ContractAddress,
+        ) { // TODO: Implement
         }
 
         fn get_delegated_power(self: @ContractState, account: ContractAddress) -> u256 {
