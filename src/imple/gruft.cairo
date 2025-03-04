@@ -22,9 +22,7 @@ mod GRUFT {
         balances: Map::<ContractAddress, u256>,
         allowances: Map::<(ContractAddress, ContractAddress), u256>,
         // Game-specific state
-        staked_amounts: Map::<
-            (ContractAddress, u256), u256,
-        >, // (player, competition_id) -> amount
+        staked_amounts: Map::<(ContractAddress, u256), u256>, // (player, competition_id) -> amount
         voting_power: Map::<ContractAddress, u256>,
         reward_rates: Map::<u8, u256>,
         rewards_paused: bool,
@@ -62,7 +60,9 @@ mod GRUFT {
             self.balances.read(account)
         }
 
-        fn allowance(self: @ContractState, owner: ContractAddress, spender: ContractAddress) -> u256 {
+        fn allowance(
+            self: @ContractState, owner: ContractAddress, spender: ContractAddress,
+        ) -> u256 {
             self.allowances.read((owner, spender))
         }
 
@@ -76,12 +76,16 @@ mod GRUFT {
             ref self: ContractState,
             sender: ContractAddress,
             recipient: ContractAddress,
-            amount: u256
+            amount: u256,
         ) -> bool {
             let caller = starknet::get_caller_address();
-            assert(self.allowances.read((sender, caller)) >= amount, 'ERC20: insufficient allowance');
+            assert(
+                self.allowances.read((sender, caller)) >= amount, 'ERC20: insufficient allowance',
+            );
             self.transfer_helper(sender, recipient, amount);
-            self.allowances.write((sender, caller), self.allowances.read((sender, caller)) - amount);
+            self
+                .allowances
+                .write((sender, caller), self.allowances.read((sender, caller)) - amount);
             true
         }
 
@@ -94,12 +98,10 @@ mod GRUFT {
 
     #[abi(embed_v0)]
     impl GRUFTImpl of IGRUFT<ContractState> {
-        fn stake(ref self: ContractState, amount: u256, lock_duration: u64) {
-            // TODO: Implement
+        fn stake(ref self: ContractState, amount: u256, lock_duration: u64) {// TODO: Implement
         }
 
-        fn unstake(ref self: ContractState, position_id: u256) {
-            // TODO: Implement
+        fn unstake(ref self: ContractState, position_id: u256) {// TODO: Implement
         }
 
         fn get_staking_position(self: @ContractState, position_id: u256) -> StakingPosition {
@@ -107,7 +109,9 @@ mod GRUFT {
             StakingPosition { amount: 0, lock_duration: 0, start_time: 0, multiplier: 0 }
         }
 
-        fn get_all_positions(self: @ContractState, account: ContractAddress) -> Array<StakingPosition> {
+        fn get_all_positions(
+            self: @ContractState, account: ContractAddress,
+        ) -> Array<StakingPosition> {
             // TODO: Implement
             ArrayTrait::new()
         }
@@ -117,8 +121,7 @@ mod GRUFT {
             0
         }
 
-        fn claim_rewards(ref self: ContractState) {
-            // TODO: Implement
+        fn claim_rewards(ref self: ContractState) {// TODO: Implement
         }
 
         fn get_reward_info(self: @ContractState, account: ContractAddress) -> RewardInfo {
@@ -141,8 +144,7 @@ mod GRUFT {
             0
         }
 
-        fn delegate_voting_power(ref self: ContractState, delegatee: ContractAddress) {
-            // TODO: Implement
+        fn delegate_voting_power(ref self: ContractState, delegatee: ContractAddress) {// TODO: Implement
         }
 
         fn get_delegated_power(self: @ContractState, account: ContractAddress) -> u256 {

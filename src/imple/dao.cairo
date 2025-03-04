@@ -40,16 +40,13 @@ mod SnookNetDAO {
 
     #[external(v0)]
     impl SnookNetDAOImpl of IDAO<ContractState> {
-        fn propose_rule_change(ref self: ContractState, proposal: Proposal) {
-            // TODO: Implement proposal creation
+        fn propose_rule_change(ref self: ContractState, proposal: Proposal) {// TODO: Implement proposal creation
         }
 
-        fn vote(ref self: ContractState, proposal_id: u256, support: bool) {
-            // TODO: Implement voting
+        fn vote(ref self: ContractState, proposal_id: u256, support: bool) {// TODO: Implement voting
         }
 
-        fn execute_proposal(ref self: ContractState, proposal_id: u256) {
-            // TODO: Implement proposal execution
+        fn execute_proposal(ref self: ContractState, proposal_id: u256) {// TODO: Implement proposal execution
         }
 
         fn create_custom_challenge(ref self: ContractState, challenge_data: ChallengeData) -> u256 {
@@ -58,16 +55,13 @@ mod SnookNetDAO {
             challenge_id
         }
 
-        fn participate_in_challenge(ref self: ContractState, challenge_id: u256) {
-            // TODO: Implement challenge participation
+        fn participate_in_challenge(ref self: ContractState, challenge_id: u256) {// TODO: Implement challenge participation
         }
 
-        fn complete_challenge(ref self: ContractState, challenge_id: u256) {
-            // TODO: Implement challenge completion
+        fn complete_challenge(ref self: ContractState, challenge_id: u256) {// TODO: Implement challenge completion
         }
 
-        fn claim_challenge_reward(ref self: ContractState, challenge_id: u256) {
-            // TODO: Implement reward claiming
+        fn claim_challenge_reward(ref self: ContractState, challenge_id: u256) {// TODO: Implement reward claiming
         }
 
         fn get_proposal(self: @ContractState, proposal_id: u256) -> Proposal {

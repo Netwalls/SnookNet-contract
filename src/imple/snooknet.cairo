@@ -5,7 +5,10 @@ mod SnookNet {
     use core::array::ArrayTrait;
     use core::option::Option;
     use crate::interfaces::snooknet::ISNOOKNET;
-    use crate::interfaces::snooknet::{GameState, ShotData, Position, RoomType, QueueType, QueueStatus, MatchConfig, TournamentConfig};
+    use crate::interfaces::snooknet::{
+        GameState, ShotData, Position, RoomType, QueueType, QueueStatus, MatchConfig,
+        TournamentConfig,
+    };
     use starknet::storage::{
         Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerReadAccess,
         StoragePointerWriteAccess,
@@ -45,7 +48,7 @@ mod SnookNet {
         // Game Room Management
         fn create_game_room(ref self: ContractState, room_type: RoomType, entry_fee: u256) -> u256 {
             let room_id = self.current_room_id.read();
-            
+
             self.room_entry_fees.write(room_id, entry_fee);
             self.current_room_id.write(room_id + 1);
             room_id
@@ -105,13 +108,8 @@ mod SnookNet {
         fn get_game_state(self: @ContractState, game_id: u256) -> GameState {
             let mut players = ArrayTrait::new();
             let mut scores = ArrayTrait::new();
-            GameState { 
-                room_id: game_id,
-                players,
-                current_player: 0,
-                scores,
-                status: 0,
-                timestamp: 0
+            GameState {
+                room_id: game_id, players, current_player: 0, scores, status: 0, timestamp: 0,
             }
         }
 
@@ -206,7 +204,7 @@ mod SnookNet {
             QueueStatus {
                 player_count: 0, // TODO: Implement storage read
                 average_wait_time: 300,
-                active_matches: 0
+                active_matches: 0,
             }
         }
 
@@ -281,7 +279,7 @@ mod SnookNet {
                 current_player: 0,
                 scores: ArrayTrait::new(),
                 status: 0,
-                timestamp: 0
+                timestamp: 0,
             }
         }
 

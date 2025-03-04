@@ -107,7 +107,9 @@ pub trait ISNOOKNET<TContractState> {
     fn create_tournament(ref self: TContractState, config: TournamentConfig) -> u256;
     fn register_for_tournament(ref self: TContractState, tournament_id: u256);
     fn start_tournament_match(ref self: TContractState, tournament_id: u256, match_id: u256);
-    fn get_tournament_standings(self: @TContractState, tournament_id: u256) -> Array<(ContractAddress, u16)>;
+    fn get_tournament_standings(
+        self: @TContractState, tournament_id: u256,
+    ) -> Array<(ContractAddress, u16)>;
 
     // Practice Mode
     fn start_practice_mode(ref self: TContractState) -> u256;
