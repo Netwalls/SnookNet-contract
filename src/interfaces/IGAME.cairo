@@ -1,21 +1,4 @@
-use starknet::ContractAddress;
-use super::types::{Position, GameState};
-
-#[derive(Copy, Drop, Serde, starknet::Store)]
-enum RoomType {
-    Standard,
-    Tournament,
-    Practice,
-    AIChallenge
-}
-
-#[derive(Copy, Drop, Serde, starknet::Store)]
-struct ShotData {
-    force: u8,
-    angle: u16,
-    spin: u8,
-    cue_position: Position
-}
+use super::super::types::game::{RoomType, ShotData, GameState};
 
 #[starknet::interface]
 trait IGame {
@@ -24,4 +7,4 @@ trait IGame {
     fn make_shot(ref self: ContractState, game_id: u256, shot_data: ShotData);
     fn end_game(ref self: ContractState, game_id: u256);
     fn get_game_state(self: @ContractState, game_id: u256) -> GameState;
-}
+} 

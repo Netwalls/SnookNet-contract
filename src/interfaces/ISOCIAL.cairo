@@ -1,5 +1,5 @@
 use starknet::ContractAddress;
-use super::types::Position;
+use super::super::types::game::Position;
 
 #[starknet::interface]
 trait ISocial {
