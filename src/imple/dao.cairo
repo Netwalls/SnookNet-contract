@@ -1,7 +1,9 @@
 #[starknet::contract]
 mod SnookNetDAO {
     use core::starknet::{ContractAddress};
-    use crate::interfaces::dao::{IDAO, Proposal, ProposerRequirements, AutoExecuteThreshold, VotingPower};
+    use crate::interfaces::dao::{
+        IDAO, Proposal, ProposerRequirements, AutoExecuteThreshold, VotingPower,
+    };
     use crate::interfaces::gruft::IGRUFT;
     use starknet::storage::{
         Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerReadAccess,
@@ -18,21 +20,19 @@ mod SnookNetDAO {
         delegated_power: Map::<(ContractAddress, ContractAddress), u256>, // (from, to) -> amount
         total_delegated_to: Map::<ContractAddress, u256>,
         // Configuration
-        min_gruft_tokens: u256,      // 8000 GRUFT
-        min_nfts: u32,               // 20 NFTs
-        min_auto_gruft: u256,        // 200,000 GRUFT
-        min_auto_nfts: u32,          // 70 NFTs
+        min_gruft_tokens: u256, // 8000 GRUFT
+        min_nfts: u32, // 20 NFTs
+        min_auto_gruft: u256, // 200,000 GRUFT
+        min_auto_nfts: u32, // 70 NFTs
         voting_period: u64,
-        reward_delay: u64,           // 20 days in seconds
+        reward_delay: u64, // 20 days in seconds
         gruft_token: ContractAddress,
         nft_contract: ContractAddress,
     }
 
     #[constructor]
     fn constructor(
-        ref self: ContractState,
-        gruft_address: ContractAddress,
-        nft_address: ContractAddress,
+        ref self: ContractState, gruft_address: ContractAddress, nft_address: ContractAddress,
     ) {
         self.gruft_token.write(gruft_address);
         self.nft_contract.write(nft_address);
@@ -47,12 +47,12 @@ mod SnookNetDAO {
 
     #[external(v0)]
     impl SnookNetDAOImpl of IDAO<ContractState> {
-        fn propose_rule_change(
-            ref self: ContractState, proposal: Proposal,
-        ) {
+        fn propose_rule_change(ref self: ContractState, proposal: Proposal) {
             let caller = starknet::get_caller_address();
             let requirements = self.check_proposal_eligibility(caller);
-            assert(requirements.min_gruft_tokens >= self.min_gruft_tokens.read(), 'Insufficient GRUFT');
+            assert(
+                requirements.min_gruft_tokens >= self.min_gruft_tokens.read(), 'Insufficient GRUFT',
+            );
             assert(requirements.min_nfts >= self.min_nfts.read(), 'Insufficient NFTs');
             assert(requirements.is_grandmaster, 'Must be Grandmaster');
 
@@ -121,7 +121,7 @@ mod SnookNetDAO {
         // - Apply any multipliers based on lock duration
         // - Include delegated power
         fn get_voting_power(
-            self: @ContractState, voter: ContractAddress
+            self: @ContractState, voter: ContractAddress,
         ) -> VotingPower { // TODO: Implement power calculation
             VotingPower { base_power: 0, boost_multiplier: 0, lock_duration: 0, nft_count: 0 }
         }
@@ -132,7 +132,7 @@ mod SnookNetDAO {
         // - All NFT voting power
         // - Consider locked tokens
         fn get_total_voting_power(
-            self: @ContractState
+            self: @ContractState,
         ) -> u256 { // TODO: Implement total power calculation
             0
         }
@@ -143,7 +143,7 @@ mod SnookNetDAO {
         // - Check NFT count (min 20)
         // - Verify Grandmaster status
         fn check_proposal_eligibility(
-            self: @ContractState, account: ContractAddress
+            self: @ContractState, account: ContractAddress,
         ) -> ProposerRequirements { // TODO: Implement eligibility checks
             ProposerRequirements { min_gruft_tokens: 0, min_nfts: 0, is_grandmaster: false }
         }
@@ -153,7 +153,7 @@ mod SnookNetDAO {
         // - Verify 200,000 GRUFT tokens voted in favor
         // - Verify 100 NFTs voted in favor
         fn can_auto_execute(
-            self: @ContractState, proposal_id: u256
+            self: @ContractState, proposal_id: u256,
         ) -> bool { // TODO: Implement auto-execution check
             false
         }
@@ -162,7 +162,7 @@ mod SnookNetDAO {
         fn get_auto_execute_threshold(self: @ContractState) -> AutoExecuteThreshold {
             AutoExecuteThreshold {
                 min_gruft_votes: self.min_auto_gruft.read(),
-                min_nft_votes: self.min_auto_nfts.read()
+                min_nft_votes: self.min_auto_nfts.read(),
             }
         }
     }
@@ -175,7 +175,7 @@ mod SnookNetDAO {
         // - Execution status
         // - Voting period
         fn is_proposal_active(
-            self: @ContractState, proposal_id: u256
+            self: @ContractState, proposal_id: u256,
         ) -> bool { // TODO: Implement activity check
             false
         }
@@ -186,7 +186,7 @@ mod SnookNetDAO {
         // - Vote counts
         // - Auto-execution thresholds
         fn can_execute_proposal(
-            self: @ContractState, proposal_id: u256
+            self: @ContractState, proposal_id: u256,
         ) -> bool { // TODO: Implement execution check
             false
         }
